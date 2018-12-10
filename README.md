@@ -6,7 +6,7 @@ Java implementation of a Disk-based LRU cache for Android Bitmaps. This is an as
 
 1 - Add the following library to your `build.gradle`:
 
-```
+```groovy
 implementation 'com.jakewharton:disklrucache:2.0.2'
 ```
 
@@ -16,20 +16,21 @@ implementation 'com.jakewharton:disklrucache:2.0.2'
 
 You can instantiate the BitmapDiskCache in your activity like this:
 
-```
+```java
 final BitmapDiskCache cache = new BitmapDiskCache(getApplicationContext());
 ```
 
 You can add bitmaps to the cache and get the assigned key like this:
 
-```
+```java
 cache.add(someBitmap, key -> {
   // Store the key
  });
 ```
 
 You can retrieve a bitmap by its key like this:
-```
+
+```java
 cache.get(key, bitmap -> {
   // Use bitmap
  });
@@ -37,6 +38,6 @@ cache.get(key, bitmap -> {
 
 When you finish using the cache or when your activity finishes you need to close the cache reference:
 
-```
+```java
 cache.close();
 ```
