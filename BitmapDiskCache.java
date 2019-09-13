@@ -66,7 +66,7 @@ public class BitmapDiskCache {
         @Override
         protected Bitmap doInBackground(String... params) {
             final String imageKey = String.valueOf(params[0]);
-            final DiskLruCache.Snapshot foundSnapshot = null;
+            DiskLruCache.Snapshot foundSnapshot = null;
 
             synchronized (mDiskCacheLock) {
                 // Wait while disk cache is started from background thread
