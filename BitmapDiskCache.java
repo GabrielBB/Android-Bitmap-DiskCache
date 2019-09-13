@@ -66,6 +66,7 @@ public class BitmapDiskCache {
         @Override
         protected Bitmap doInBackground(String... params) {
             final String imageKey = String.valueOf(params[0]);
+            final DiskLruCache.Snapshot foundSnapshot = null;
 
             synchronized (mDiskCacheLock) {
                 // Wait while disk cache is started from background thread
@@ -77,13 +78,16 @@ public class BitmapDiskCache {
                 }
 
                 if (mDiskLruCache != null) {
-
-                    try (DiskLruCache.Snapshot snapshot = mDiskLruCache.get(imageKey)) {
-                        return BitmapFactory.decodeStream(snapshot.getInputStream(0));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    try {
+                        foundSnapshot = mDiskLruCache.get(imageKey);
+                    } catch (Exception e) {}
                 }
+            }
+            if (foundSnapshot != null) try(DiskLruCache.Snapshot snapshot = foundSnapshot) {
+                return BitmapFactory.decodeStream(snapshot.getInputStream(0));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
             }
 
             return null;
